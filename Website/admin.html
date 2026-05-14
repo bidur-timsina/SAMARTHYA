@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Samarthya Institute admin panel powered by Firebase Authentication, Firestore, and Storage."
+    />
+    <title>Admin Panel | Samarthya Institute</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <div class="admin-app">
+        <aside class="admin-sidebar">
+          <a class="brand" href="index.html">
+            <span class="brand-mark">S</span>
+            <span class="brand-copy">
+              <strong>Samarthya.ai</strong>
+              <small>Admin dashboard</small>
+            </span>
+          </a>
+
+          <nav class="sidebar-nav" aria-label="Admin sections">
+            <div class="nav-group-label">Analytics</div>
+            <a class="nav-item active" href="#overview">
+              <span class="nav-icon">⌂</span>
+              Overview
+            </a>
+            <a class="nav-item" href="#notices">
+              <span class="nav-icon">✦</span>
+              Notices
+            </a>
+            <a class="nav-item" href="#uploads">
+              <span class="nav-icon">⇪</span>
+              Uploads
+            </a>
+            <a class="nav-item" href="#content">
+              <span class="nav-icon">◫</span>
+              Content
+            </a>
+
+            <div class="nav-group-label nav-spacer">Content</div>
+            <a class="nav-item" href="index.html#notice">
+              <span class="nav-icon">•</span>
+              Public Notices
+            </a>
+            <a class="nav-item" href="index.html#results">
+              <span class="nav-icon">•</span>
+              Results Block
+            </a>
+            <a class="nav-item" href="index.html#faculty">
+              <span class="nav-icon">•</span>
+              Faculty Block
+            </a>
+          </nav>
+
+          <div class="sidebar-footer">
+            <div class="sidebar-note">
+              <strong>Firebase-only</strong>
+              <span>Auth, Firestore, Storage</span>
+            </div>
+            <a href="index.html" class="sidebar-link">Back to site</a>
+          </div>
+        </aside>
+
+        <section class="admin-main">
+          <header class="topbar">
+            <div class="search-chip">
+              <span class="search-ico">⌕</span>
+              <input type="search" placeholder="Search notices, uploads, content..." aria-label="Search dashboard" />
+            </div>
+
+            <div class="topbar-actions">
+              <button class="icon-btn" type="button" aria-label="Notifications">◌</button>
+              <button class="icon-btn" type="button" aria-label="Help">?</button>
+              <button class="account-chip" type="button" aria-label="My Account">
+                <span class="avatar">BT</span>
+                <span class="account-text">
+                  <strong>My Account</strong>
+                  <small>info@samarthya.edu.np</small>
+                </span>
+                <span class="chev">⌄</span>
+              </button>
+            </div>
+          </header>
+
+          <section class="hero-card" id="overview">
+            <div class="hero-copy">
+              <div class="hero-kicker">Private admin workspace</div>
+              <h1>Samarthya dashboard for notices, uploads, and live content updates.</h1>
+              <p>
+                This layout follows a modern analytics dashboard style while keeping the
+                Samarthya brand, Firebase login, and browser-only workflows.
+              </p>
+              <div class="hero-actions">
+                <a class="primary-btn" href="#notices">Create Notice</a>
+                <a class="ghost-btn" href="#uploads">Upload File</a>
+              </div>
+            </div>
+
+            <div class="hero-panel">
+              <div class="hero-panel-head">
+                <h2>Automation Analytics</h2>
+                <span>Live overview</span>
+              </div>
+              <div class="stat-grid">
+                <article class="stat-card blue">
+                  <span>Notices</span>
+                  <strong id="noticeMetric">0</strong>
+                  <small>Published updates</small>
+                </article>
+                <article class="stat-card violet">
+                  <span>Uploads</span>
+                  <strong id="uploadMetric">0</strong>
+                  <small>Files in Storage</small>
+                </article>
+                <article class="stat-card green">
+                  <span>Admin</span>
+                  <strong>1</strong>
+                  <small>Approved email only</small>
+                </article>
+                <article class="stat-card amber">
+                  <span>Firebase</span>
+                  <strong>Live</strong>
+                  <small>Browser SDK sync</small>
+                </article>
+                <article class="stat-card mint">
+                  <span>Courses</span>
+                  <strong id="courseMetric">0</strong>
+                  <small>Catalog entries</small>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="content-grid">
+            <div class="login-card panel" id="loginPanel">
+              <div class="panel-head">
+                <div>
+                  <h2>Admin Login</h2>
+                  <p>Sign in with the approved admin account only.</p>
+                </div>
+                <span class="badge">Secure</span>
+              </div>
+
+              <form id="loginForm" class="form-stack">
+                <label class="field">
+                  <span>Email</span>
+                  <input id="email" type="email" autocomplete="email" placeholder="admin@email.com" required />
+                </label>
+                <label class="field">
+                  <span>Password</span>
+                  <input id="password" type="password" autocomplete="current-password" placeholder="Enter password" required />
+                </label>
+                <button type="submit" class="primary-btn full">Sign in</button>
+              </form>
+
+              <div id="authStatus" class="status" data-tone="neutral">
+                Sign in to manage notices, uploads, and admin content.
+              </div>
+
+              <div class="mini-note">Only `info@samarthya.edu.np` can access this workspace.</div>
+            </div>
+
+            <div class="dashboard hidden" id="dashboardPanel">
+              <div class="panel dashboard-toolbar">
+                <div>
+                  <h2>Home</h2>
+                  <p>Manage public content from this dashboard.</p>
+                </div>
+                <button type="button" id="logoutButton" class="ghost-btn">Sign out</button>
+              </div>
+
+              <div class="action-grid" id="content">
+                <section class="panel action-card" id="notices">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Create Notice</h3>
+                      <p>Publish updates for students and visitors.</p>
+                    </div>
+                  </div>
+                  <form id="noticeForm" class="form-stack">
+                    <label class="field">
+                      <span>Title</span>
+                      <input id="noticeTitle" type="text" placeholder="Exam schedule update" required />
+                    </label>
+                    <label class="field">
+                      <span>Category</span>
+                      <select id="noticeCategory">
+                        <option value="notice">Notice</option>
+                        <option value="result">Result</option>
+                        <option value="admission">Admission</option>
+                        <option value="event">Event</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Body</span>
+                      <textarea id="noticeBody" placeholder="Write the full update here..." required></textarea>
+                    </label>
+                    <button type="submit" class="primary-btn full">Publish notice</button>
+                  </form>
+                </section>
+
+                <section class="panel action-card" id="uploads">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Upload File</h3>
+                      <p>Store study materials, images, and PDFs in Firebase Storage.</p>
+                    </div>
+                  </div>
+                  <form id="fileForm" class="form-stack">
+                    <label class="field">
+                      <span>Label</span>
+                      <input id="uploadLabel" type="text" placeholder="Course handout" />
+                    </label>
+                    <label class="field">
+                      <span>Choose File</span>
+                      <input id="uploadFile" type="file" />
+                    </label>
+                    <button type="submit" class="primary-btn full">Upload to Storage</button>
+                  </form>
+                  <div id="fileStatus" class="status" data-tone="neutral">
+                    Files will be stored in Firebase Storage.
+                  </div>
+                </section>
+
+                <section class="panel action-card" id="courses">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Add New Course</h3>
+                      <p>Create a course card for the Samarthya programs page.</p>
+                    </div>
+                  </div>
+                  <form id="courseForm" class="form-stack">
+                    <label class="field">
+                      <span>Course Title</span>
+                      <input id="courseTitle" type="text" placeholder="IELTS / Spoken English" required />
+                    </label>
+                    <label class="field">
+                      <span>Category</span>
+                      <select id="courseCategory">
+                        <option value="psc">PSC / Lok Sewa</option>
+                        <option value="police">Police Service</option>
+                        <option value="teaching">Teaching (TSC)</option>
+                        <option value="banking">Banking</option>
+                        <option value="health">Health Service</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </label>
+                    <div class="field-row">
+                      <label class="field">
+                        <span>Level / Batch</span>
+                        <input id="courseLevel" type="text" placeholder="Level 4 / Batch 2082" />
+                      </label>
+                      <label class="field">
+                        <span>Duration</span>
+                        <input id="courseDuration" type="text" placeholder="4 Months" />
+                      </label>
+                    </div>
+                    <label class="field">
+                      <span>Highlights</span>
+                      <textarea id="courseHighlights" placeholder="General Knowledge, Mock Tests, Past Papers"></textarea>
+                    </label>
+                    <label class="field">
+                      <span>Description</span>
+                      <textarea id="courseDescription" placeholder="Write the full course description..." required></textarea>
+                    </label>
+                    <label class="field">
+                      <span>Status</span>
+                      <select id="courseStatus">
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                      </select>
+                    </label>
+                    <button type="submit" class="primary-btn full">Add course</button>
+                  </form>
+                </section>
+              </div>
+
+              <div class="list-grid">
+                <section class="panel list-card">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Latest Notices</h3>
+                      <p>Most recent Firestore entries.</p>
+                    </div>
+                    <span class="badge">Firestore</span>
+                  </div>
+                  <div id="noticeList" class="list"></div>
+                </section>
+
+                <section class="panel list-card">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Latest Uploads</h3>
+                      <p>Files saved in Firebase Storage.</p>
+                    </div>
+                    <span class="badge">Storage</span>
+                  </div>
+                  <div id="uploadList" class="list"></div>
+                </section>
+
+                <section class="panel list-card">
+                  <div class="panel-head">
+                    <div>
+                      <h3>Latest Courses</h3>
+                      <p>Programs added from this admin panel.</p>
+                    </div>
+                    <span class="badge">Courses</span>
+                  </div>
+                  <div id="courseList" class="list"></div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="js/admin.js"></script>
+  </body>
+</html>
